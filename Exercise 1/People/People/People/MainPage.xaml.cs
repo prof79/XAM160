@@ -11,6 +11,7 @@ namespace People
         #region Fields
 
         private readonly IFileAccessHelper _fileAccessHelper;
+        private readonly string _dbFileName = "people.db";
 
         #endregion
 
@@ -21,7 +22,7 @@ namespace People
 
             InitializeComponent();
 
-            Text = _fileAccessHelper.GetLocalFilePath(String.Empty);
+            Text = _fileAccessHelper.GetLocalFilePath(_dbFileName);
         }
 
         #region Properties

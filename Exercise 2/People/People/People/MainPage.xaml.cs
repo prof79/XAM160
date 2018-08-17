@@ -3,6 +3,7 @@
 namespace People
 {
     using System;
+    using SQLite;
     using Xamarin.Forms;
     using Utility;
 
@@ -23,6 +24,11 @@ namespace People
             InitializeComponent();
 
             Text = _fileAccessHelper.GetLocalFilePath(_dbFileName);
+
+            using (var conn = new SQLiteConnection(_fileAccessHelper.GetLocalFilePath(_dbFileName)))
+            {
+                // If we didn't throw up to this point, project configuration seems to be ok.
+            }
         }
 
         #region Properties

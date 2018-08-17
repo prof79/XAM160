@@ -2,7 +2,6 @@
 
 namespace People.Droid
 {
-
     using System;
 
     using Android.App;

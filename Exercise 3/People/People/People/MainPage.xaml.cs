@@ -14,6 +14,8 @@ namespace People
         private readonly IFileAccessHelper _fileAccessHelper;
         private readonly string _dbFileName = "people.db";
 
+        private readonly string _fullDbPath;
+
         #endregion
 
         public MainPage()
@@ -23,9 +25,11 @@ namespace People
 
             InitializeComponent();
 
-            Text = _fileAccessHelper.GetLocalFilePath(_dbFileName);
+            _fullDbPath = _fileAccessHelper.GetDatabaseFilePath(_dbFileName);
 
-            using (var conn = new SQLiteConnection(_fileAccessHelper.GetLocalFilePath(_dbFileName)))
+            Text = _fullDbPath;
+
+            using (var conn = new SQLiteConnection(_fullDbPath))
             {
                 // If we didn't throw up to this point, project configuration seems to be ok.
             }

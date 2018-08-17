@@ -8,7 +8,7 @@
 //      Implementation of platform-specific file operations for
 //      Universal Windows Platform (UWP).
 // </description>
-// <version>v0.9.0 2018-08-17T23:26:00+02</version>
+// <version>v1.1.0 2018-08-18T00:51:00+02</version>
 //
 // Based on Xamarin University guidance and XAM160.
 //
@@ -42,6 +42,9 @@ namespace People.UWP.Utility
 
             return Path.Combine(localFolderPath, fileName);
         }
+
+        public string GetDatabaseFilePath(string fileName)
+            => GetLocalFilePath(fileName);
 
         #endregion
     }

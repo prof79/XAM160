@@ -7,7 +7,7 @@
 // <description>
 //      Implementation of platform-specific file operations for Android.
 // </description>
-// <version>v0.9.0 2018-08-17T23:25:00+02</version>
+// <version>v1.1.0 2018-08-18T00:49:00+02</version>
 //
 // Based on Xamarin University guidance and XAM160.
 //
@@ -26,10 +26,17 @@ namespace People.Droid.Utility
     /// </summary>
     public class FileAccessHelper_Android : IFileAccessHelper
     {
+        #region Fields
+
+        private const string AndroidDatabasesPath =
+            "databases";
+
+        #endregion
+
         #region Interface IFileAccessHelper
 
         /// <inheritdoc />
-        public string GetLocalFilePath(string fileName)
+        public string GetLocalFilePath(string fileName = "")
         {
             var personalFolder =
                 Environment
@@ -37,6 +44,20 @@ namespace People.Droid.Utility
                         Environment.SpecialFolder.Personal);
 
             return Path.Combine(personalFolder, fileName);
+        }
+
+        /// <inheritdoc />
+        public string GetDatabaseFilePath(string fileName)
+        {
+            var databasesPath =
+                Path.Combine(GetLocalFilePath(), AndroidDatabasesPath);
+
+            if (!Directory.Exists(databasesPath))
+            {
+                Directory.CreateDirectory(databasesPath);
+            }
+
+            return Path.Combine(databasesPath, fileName);
         }
 
         #endregion

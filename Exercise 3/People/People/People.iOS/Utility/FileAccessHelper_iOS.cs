@@ -7,7 +7,7 @@
 // <description>
 //      Implementation of platform-specific file operations for iOS.
 // </description>
-// <version>v0.9.0 2018-08-17T23:25:00+02</version>
+// <version>v1.1.0 2018-08-18T00:50:00+02</version>
 //
 // Based on Xamarin University guidance and XAM160.
 //
@@ -41,6 +41,10 @@ namespace People.iOS.Utility
 
             return Path.Combine(libraryPath, fileName);
         }
+
+        /// <inheritdoc />
+        public string GetDatabaseFilePath(string fileName)
+            => GetLocalFilePath(fileName);
 
         #endregion
     }

@@ -5,11 +5,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:People">
 
-    <StackLayout>
+    <StackLayout Padding="20">
 
         <!--  Place new controls here  -->
         <Label
+            x:Name="textLabel"
             HorizontalOptions="Center"
+            LineBreakMode="CharacterWrap"
             Text="Welcome to Xamarin.Forms!"
             VerticalOptions="CenterAndExpand" />
 

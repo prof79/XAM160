@@ -4,7 +4,7 @@ namespace People
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
+    using System.Threading.Tasks;
     using People.Models;
     using SQLite;
 
@@ -12,7 +12,7 @@ namespace People
     {
         #region Fields
 
-        private readonly SQLiteConnection _conn;
+        private readonly SQLiteAsyncConnection _conn;
 
         #endregion
 
@@ -27,17 +27,22 @@ namespace People
         public PersonRepository(string dbPath)
         {
             // Initialize a new SQLiteConnection
-            _conn = new SQLiteConnection(dbPath);
+            _conn = new SQLiteAsyncConnection(dbPath);
 
-            // Create the Person table
-            _conn.CreateTable<Person>();
+            InitializeDatabaseAsync();
         }
 
         #endregion
 
         #region Methods
 
-        public void AddNewPerson(string name)
+        private Task InitializeDatabaseAsync()
+        {
+            // Create the Person table
+            return _conn.CreateTableAsync<Person>();
+        }
+
+        public async Task AddNewPersonAsync(string name)
         {
             int result = 0;
 
@@ -56,7 +61,7 @@ namespace People
                     Name = name
                 };
 
-                result = _conn.Insert(person);
+                result = await _conn.InsertAsync(person).ConfigureAwait(false);
 
                 StatusMessage = $"{result} record(s) added [Name: {name})";
             }
@@ -66,18 +71,18 @@ namespace People
             }
         }
 
-        public IList<Person> GetAllPeople()
+        public Task<List<Person>> GetAllPeopleAsync()
         {
             // Return a list of people saved to the Person table in the database
             try
             {
-                return _conn.Table<Person>().ToList();
+                return _conn.Table<Person>().ToListAsync();
             }
             catch (SQLiteException sqlEx)
             {
                 StatusMessage = $"Error retrieving people: {sqlEx.Message}";
 
-                return new List<Person>();
+                return Task.FromResult(new List<Person>());
             }
         }
 

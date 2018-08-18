@@ -2,46 +2,41 @@
 
 namespace People
 {
+    using People.Models;
     using System;
-    using SQLite;
     using Xamarin.Forms;
+    using System.Collections.Generic;
     using Utility;
 
     public partial class MainPage : ContentPage
     {
-        #region Fields
-
-        private readonly IFileAccessHelper _fileAccessHelper;
-        private readonly string _dbFileName = "people.db";
-
-        private readonly string _fullDbPath;
-
-        #endregion
+        #region Constructor
 
         public MainPage()
         {
-            _fileAccessHelper =
-                DependencyService.Get<IFileAccessHelper>();
-
             InitializeComponent();
-
-            _fullDbPath = _fileAccessHelper.GetDatabaseFilePath(_dbFileName);
-
-            Text = _fullDbPath;
-
-            using (var conn = new SQLiteConnection(_fullDbPath))
-            {
-                // If we didn't throw up to this point, project configuration seems to be ok.
-            }
         }
 
-        #region Properties
+        #endregion
 
-        public string Text
+        #region Event Handlers
+
+        public void OnNewButtonClicked(object sender, EventArgs args)
         {
-            get => textLabel.Text;
+            statusMessage.Text = "";
 
-            set => textLabel.Text = value;
+            App.PersonRepo.AddNewPerson(newPerson.Text);
+
+            statusMessage.Text = App.PersonRepo.StatusMessage;
+        }
+
+        public void OnGetButtonClicked(object sender, EventArgs args)
+        {
+            statusMessage.Text = "";
+
+            var people = App.PersonRepo.GetAllPeople();
+
+            peopleList.ItemsSource = people;
         }
 
         #endregion
